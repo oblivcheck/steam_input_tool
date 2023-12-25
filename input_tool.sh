@@ -67,10 +67,12 @@ done
 ) &
 _input_tool_input="$(zenity --entry --text '-----------------------------在下面输入想要输入的内容----------------------------' --title "Input Tool $_input_tool_title")"
 test -z "$_input_tool_input" && rm /tmp/_input_tool.lock && exit 0
-xdotool type --delay 10 "$_input_tool_input"
+# --delay 输入延迟，太短可能会少字
+xdotool type --delay 100 "$_input_tool_input"
 fcitx5-remote -s ${InputN_EN}
 
 if(xdotool getwindowfocus getwindowname | grep -q "$W_Name") && [ "$(xdotool getwindowfocus getwindowclassname)" = "$W_Class" ]; then
+	xdotool key return
 	i3-msg fullscreen enable
 fi
 
